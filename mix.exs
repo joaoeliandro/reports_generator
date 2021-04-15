@@ -6,6 +6,8 @@ defmodule ReportsGenerator.MixProject do
       app: :reports_generator,
       version: "0.1.0",
       elixir: "~> 1.11",
+      aliases: [test: "test --color --cover"],
+      test_coverage: [tool: LcovEx, output: "cover"],
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -21,7 +23,8 @@ defmodule ReportsGenerator.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:lcov_ex, "~> 0.1", only: :test, runtime: false}
     ]
   end
 end
