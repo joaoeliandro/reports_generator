@@ -22,11 +22,16 @@ defmodule ReportsGenerator do
     end)
   end
 
-  def build_from_many(filenames) do
+  def build_from_parallel(filenames) when not is_list(filenames) do
+    {:error, "Please provide a list of strings"}
+  end
+
+  def build_from_parallel(filenames) do
     filenames
     |> Task.async_stream(&build/1)
     |> Enum.reduce(report_acc(), fn {:ok, result}, report -> sum_reports(report, result) end)
   end
+
 
   def fetch_higher_cost(report, option) when option in @options do
     {:ok, Enum.max_by(report[option], fn {_key, value} -> value end)}
